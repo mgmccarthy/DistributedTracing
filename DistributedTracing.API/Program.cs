@@ -8,6 +8,8 @@ namespace DistributedTracing.API
 {
     public class Program
     {
+        public const string EndpointName = "DistributedTracing.API";
+
         public static void Main(string[] args)
         {
             //CreateHostBuilder(args).Build().Run();
@@ -32,7 +34,7 @@ namespace DistributedTracing.API
             Host.CreateDefaultBuilder(args)
                 .UseNServiceBus(_ =>
                 {
-                    var endpointConfiguration = new EndpointConfiguration("DistributedTracing.API");
+                    var endpointConfiguration = new EndpointConfiguration(EndpointName);
 
                     var transport = endpointConfiguration.UseTransport<RabbitMQTransport>();
                     transport.ConnectionString("host=localhost");

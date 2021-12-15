@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 namespace DistributedTracing.API
 {
@@ -27,10 +29,32 @@ namespace DistributedTracing.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            //services.AddDbContext<WeatherContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DistributedTracing.API", Version = "v1" });
             });
+
+            services.AddOpenTelemetryTracing(builder => builder
+                .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(Program.EndpointName))
+                .AddAspNetCoreInstrumentation(opt => opt.Enrich = (activity, key, value) =>
+                {
+                    Console.WriteLine($"Got an activity named {key}");
+                })
+                //.AddSqlClientInstrumentation(opt => opt.SetDbStatementForText = true)
+                .AddNServiceBusInstrumentation()
+                .AddZipkinExporter(o =>
+                {
+                    o.Endpoint = new Uri("http://localhost:9411/api/v2/spans");
+                })
+                .AddJaegerExporter(c =>
+                {
+                    c.AgentHost = "localhost";
+                    c.AgentPort = 6831;
+                })
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
