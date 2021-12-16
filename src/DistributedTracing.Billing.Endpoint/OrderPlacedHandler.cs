@@ -7,12 +7,21 @@ namespace DistributedTracing.Billing.Endpoint
 {
     public class OrderPlacedHandler : IHandleMessages<OrderPlaced>
     {
+        private readonly OrderContext dbContext;
         private static readonly ILog Log = LogManager.GetLogger<OrderPlacedHandler>();
 
-        public Task Handle(OrderPlaced message, IMessageHandlerContext context)
+        public OrderPlacedHandler(OrderContext dbContext)
+        {
+            this.dbContext = dbContext;
+            DbInitializer.Initialize(this.dbContext);
+        }
+
+        public async Task Handle(OrderPlaced message, IMessageHandlerContext context)
         {
             Log.Info($"Handling OrderPlaced in Billing.Endpoint with OrderId: {message.OrderId}");
-            return Task.CompletedTask;
+
+            await dbContext.Orders.AddAsync(new Order { OrderId = message.OrderId });
+            await dbContext.SaveChangesAsync();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NServiceBus;
 using NServiceBus.Configuration.AdvancedExtensibility;
@@ -43,11 +44,6 @@ namespace DistributedTracing.Billing.Endpoint
                     transport.ConnectionString("host=localhost");
                     transport.UseConventionalRoutingTopology();
 
-                    var routing = transport.Routing();
-                    //routing.RouteToEndpoint(typeof(MakeItYell).Assembly, "NsbActivities.ChildWorkerService");
-
-                    //endpointConfiguration.UsePersistence<LearningPersistence>();
-
                     endpointConfiguration.EnableInstallers();
 
                     endpointConfiguration.AuditProcessedMessagesTo("DistributedTracing.Audit");
@@ -67,6 +63,7 @@ namespace DistributedTracing.Billing.Endpoint
                         .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(EndpointName))
                         .AddNServiceBusInstrumentation()
                         //.AddHttpClientInstrumentation()
+                        .AddSqlClientInstrumentation(opt => opt.SetDbStatementForText = true)
                         .AddZipkinExporter(o =>
                         {
                             o.Endpoint = new Uri("http://localhost:9411/api/v2/spans");
@@ -77,6 +74,11 @@ namespace DistributedTracing.Billing.Endpoint
                             c.AgentPort = 6831;
                         })
                     );
+
+                    services.AddDbContext<OrderContext>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=DistributedTracing;Trusted_Connection=True;MultipleActiveResultSets=true"));
+
+                    //var context = services.GetRequiredService<OrderContext>();
+                    //DbInitializer.Initialize(context);
 
                     //services.AddScoped<Func<HttpClient>>(s => () => new HttpClient
                     //{
