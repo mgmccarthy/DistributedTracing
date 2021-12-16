@@ -1,0 +1,8 @@
+Publish OrderPlaced from Ordering.Endpoint
+Add a Shipping and Billing endpoint
+- both should hanlde OrderPlaced
+Add MongoDb to Ordering.Endpoint to stamp out order
+- add instrumentation to mongo
+Add Sql Server to either Shipping or Billing
+- add instrumentation to sql server
+Add saga to coordinate between all three endpoints
