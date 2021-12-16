@@ -4,6 +4,8 @@ using NServiceBus;
 using NServiceBus.Configuration.AdvancedExtensibility;
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Driver;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -78,10 +80,16 @@ namespace DistributedTracing.Ordering.Endpoint
                         })
                     );
 
+                    services.AddSingleton<IMongoClient>(provider => new MongoClient("mongodb://localhost:27017"));
+                    //https://kevsoft.net/2020/06/25/storing-guids-as-strings-in-mongodb-with-csharp.html
+                    var pack = new ConventionPack { new GuidAsStringRepresentationConvention() };
+                    ConventionRegistry.Register("GUIDs as strings Conventions", pack, type => type.Namespace.StartsWith("MongoOutbox"));
+
                     //services.AddScoped<Func<HttpClient>>(s => () => new HttpClient
                     //{
                     //    BaseAddress = new Uri("https://localhost:5001")
                     //});
+
                 });
     }
 }

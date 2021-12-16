@@ -1,3 +1,10 @@
+docker-compose files
+- add a master docker-compose file that will compose up zipkin, mongodb and rabbit
+- add a docker compose file per resource
+	- docker-compose-mongo
+	- docker-compose-rabbit
+	- docker-compose-zipkin
+
 Add MongoDb to Ordering.Endpoint to stamp out order
 - add instrumentation to mongo
 Add Sql Server to either Shipping or Billing
