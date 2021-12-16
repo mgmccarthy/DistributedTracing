@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using DistributedTracing.Entities;
 using DistributedTracing.Messages;
 using MongoDB.Driver;
@@ -20,6 +21,9 @@ namespace DistributedTracing.Ordering.Endpoint
         public async Task Handle(PlaceOrder message, IMessageHandlerContext context)
         {
             Log.Info($"Handling PlaceOrder with OrderId: {message.OrderId}");
+
+            //can add baggage like this
+            Activity.Current?.AddBaggage("AddBaggageKey_fromPlaceOrderHandler", "AddBaggageValue_fromPlaceOrderHandler");
 
             var database = mongoClient.GetDatabase("DistributedTracing");
             var collection = database.GetCollection<Order>("orders");

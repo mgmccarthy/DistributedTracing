@@ -6,6 +6,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -45,11 +46,6 @@ namespace DistributedTracing.Ordering.Endpoint
                     transport.ConnectionString("host=localhost");
                     transport.UseConventionalRoutingTopology();
 
-                    var routing = transport.Routing();
-                    //routing.RouteToEndpoint(typeof(MakeItYell).Assembly, "NsbActivities.ChildWorkerService");
-
-                    //endpointConfiguration.UsePersistence<LearningPersistence>();
-
                     endpointConfiguration.EnableInstallers();
 
                     endpointConfiguration.AuditProcessedMessagesTo("DistributedTracing.Audit");
@@ -67,7 +63,9 @@ namespace DistributedTracing.Ordering.Endpoint
                 {
                     services.AddOpenTelemetryTracing(builder => builder
                         .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(EndpointName))
+                        //https://jimmybogard.com/diagnostics-and-instrumentation-for-mongodb-and-nservicebus/
                         .AddNServiceBusInstrumentation()
+                        .AddMongoDBInstrumentation()
                         //.AddHttpClientInstrumentation()
                         .AddZipkinExporter(o =>
                         {
@@ -80,7 +78,12 @@ namespace DistributedTracing.Ordering.Endpoint
                         })
                     );
 
-                    services.AddSingleton<IMongoClient>(provider => new MongoClient("mongodb://localhost:27017"));
+                    //https://github.com/jbogard/MongoDB.Driver.Core.Extensions.DiagnosticSources
+                    var mongoUrl = "mongodb://localhost:27017";
+                    var clientSettings = MongoClientSettings.FromUrl(new MongoUrl(mongoUrl));
+                    clientSettings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber());
+                    services.AddSingleton<IMongoClient>(provider => new MongoClient(clientSettings));
+
                     //https://kevsoft.net/2020/06/25/storing-guids-as-strings-in-mongodb-with-csharp.html
                     var pack = new ConventionPack { new GuidAsStringRepresentationConvention() };
                     ConventionRegistry.Register("GUIDs as strings Conventions", pack, type => type.Namespace.StartsWith("MongoOutbox"));
