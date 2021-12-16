@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using DistributedTracing.Entities;
 using DistributedTracing.Messages;
@@ -27,7 +28,7 @@ namespace DistributedTracing.Ordering.Endpoint
 
             var database = mongoClient.GetDatabase("DistributedTracing");
             var collection = database.GetCollection<Order>("orders");
-            var order = new Order { OrderId = message.OrderId };
+            var order = new Order { OrderId = message.OrderId, CreatedUtc = DateTime.UtcNow };
             await collection.InsertOneAsync(order);
 
             await context.Publish(new OrderPlaced {OrderId = message.OrderId});
