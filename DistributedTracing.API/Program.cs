@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using NServiceBus;
 using System.Diagnostics;
 using NServiceBus.Configuration.AdvancedExtensibility;
+using DistributedTracing.Messages;
 
 namespace DistributedTracing.API
 {
@@ -40,12 +41,12 @@ namespace DistributedTracing.API
                     transport.ConnectionString("host=localhost");
                     transport.UseConventionalRoutingTopology();
 
-                    //var routing = transport.Routing();
+                    var routing = transport.Routing();
                     //routing.RouteToEndpoint(typeof(SaySomething).Assembly, "NsbActivities.WorkerService");
+                    routing.RouteToEndpoint(typeof(PlaceOrder), "DistributedTracing.Ordering.Endpoint");
 
                     //endpointConfiguration.UsePersistence<LearningPersistence>();
-                    
-                    //endpointConfiguration.UseSerialization<SystemJsonSerializer>();
+
                     endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
 
                     endpointConfiguration.EnableInstallers();

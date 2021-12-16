@@ -1,7 +1,11 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using System;
+using Microsoft.Extensions.Hosting;
 using NServiceBus;
 using NServiceBus.Configuration.AdvancedExtensibility;
 using System.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 namespace DistributedTracing.Ordering.Endpoint
 {
@@ -33,7 +37,6 @@ namespace DistributedTracing.Ordering.Endpoint
                 {
                     var endpointConfiguration = new EndpointConfiguration(EndpointName);
 
-                    //endpointConfiguration.UseSerialization<SystemJsonSerializer>();
                     endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
 
                     var transport = endpointConfiguration.UseTransport<RabbitMQTransport>();
@@ -57,6 +60,28 @@ namespace DistributedTracing.Ordering.Endpoint
                     });
 
                     return endpointConfiguration;
+                })
+                .ConfigureServices((_, services) =>
+                {
+                    services.AddOpenTelemetryTracing(builder => builder
+                        .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(EndpointName))
+                        .AddNServiceBusInstrumentation()
+                        //.AddHttpClientInstrumentation()
+                        .AddZipkinExporter(o =>
+                        {
+                            o.Endpoint = new Uri("http://localhost:9411/api/v2/spans");
+                        })
+                        .AddJaegerExporter(c =>
+                        {
+                            c.AgentHost = "localhost";
+                            c.AgentPort = 6831;
+                        })
+                    );
+
+                    //services.AddScoped<Func<HttpClient>>(s => () => new HttpClient
+                    //{
+                    //    BaseAddress = new Uri("https://localhost:5001")
+                    //});
                 });
     }
 }
