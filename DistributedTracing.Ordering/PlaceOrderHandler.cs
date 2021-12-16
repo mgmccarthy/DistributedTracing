@@ -12,7 +12,7 @@ namespace DistributedTracing.Ordering.Endpoint
         public Task Handle(PlaceOrder message, IMessageHandlerContext context)
         {
             Log.Info($"Handling PlaceOrder with OrderId: {message.OrderId}");
-            return Task.CompletedTask;
+            return context.Publish(new OrderPlaced {OrderId = message.OrderId});
         }
     }
 }
