@@ -43,10 +43,7 @@ namespace DistributedTracing.Shipping.Endpoint
                     transport.ConnectionString("host=localhost");
                     transport.UseConventionalRoutingTopology();
 
-                    var routing = transport.Routing();
-                    //routing.RouteToEndpoint(typeof(MakeItYell).Assembly, "NsbActivities.ChildWorkerService");
-
-                    //endpointConfiguration.UsePersistence<LearningPersistence>();
+                    endpointConfiguration.UsePersistence<LearningPersistence>();
 
                     endpointConfiguration.EnableInstallers();
 

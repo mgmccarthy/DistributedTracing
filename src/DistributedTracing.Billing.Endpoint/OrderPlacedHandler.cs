@@ -22,6 +22,8 @@ namespace DistributedTracing.Billing.Endpoint
 
             await dbContext.Orders.AddAsync(new Order { OrderId = message.OrderId });
             await dbContext.SaveChangesAsync();
+
+            await context.Publish(new OrderBilled { OrderId = message.OrderId });
         }
     }
 }

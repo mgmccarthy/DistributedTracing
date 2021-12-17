@@ -1,12 +1,11 @@
+Implement ShippingSaga in ShippingEndpoint
+
 Add serivce-to-service http call to get http tracing into the mix
 
-Add docker-compose files
-- add a master docker-compose file that will compose up zipkin, mongodb and rabbit
-- add a docker compose file per resource
-	- docker-compose-zipkin
-	- docker-compose-rabbit
+Find out how to get names for sql server and mongo otel instead of their IP addresses in zipkin
 
-Add saga to coordinate between all three endpoints
+Add a docker compose file per resource
+- docker-compose-rabbit
 
 mongo packages
 https://github.com/jbogard/MongoDB.Driver.Core.Extensions.DiagnosticSources

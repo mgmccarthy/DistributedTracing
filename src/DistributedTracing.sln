@@ -18,7 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistributedTracing.Billing.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistributedTracing.Shipping.Endpoint", "DistributedTracing.Shipping.Endpoint\DistributedTracing.Shipping.Endpoint.csproj", "{0EC4EA21-E48C-4962-98BB-4BC654D2F28C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedTracing.Entities", "DistributedTracing.Entities\DistributedTracing.Entities.csproj", "{74F69336-2221-4689-93D0-3D8EEB7F7ACF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistributedTracing.Entities", "DistributedTracing.Entities\DistributedTracing.Entities.csproj", "{74F69336-2221-4689-93D0-3D8EEB7F7ACF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedTracing.FedEx.API", "DistributedTracing.FedEx.API\DistributedTracing.FedEx.API.csproj", "{EEBEB3F6-9E9E-4C15-B951-0D6531E606ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,10 @@ Global
 		{74F69336-2221-4689-93D0-3D8EEB7F7ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74F69336-2221-4689-93D0-3D8EEB7F7ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74F69336-2221-4689-93D0-3D8EEB7F7ACF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEBEB3F6-9E9E-4C15-B951-0D6531E606ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEBEB3F6-9E9E-4C15-B951-0D6531E606ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEBEB3F6-9E9E-4C15-B951-0D6531E606ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEBEB3F6-9E9E-4C15-B951-0D6531E606ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
