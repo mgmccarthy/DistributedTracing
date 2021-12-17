@@ -1,5 +1,4 @@
-Add Sql Server to Billing
-- add instrumentation to sql server
+Add serivce-to-service http call to get http tracing into the mix
 
 Add docker-compose files
 - add a master docker-compose file that will compose up zipkin, mongodb and rabbit
@@ -12,3 +11,15 @@ Add saga to coordinate between all three endpoints
 mongo packages
 https://github.com/jbogard/MongoDB.Driver.Core.Extensions.DiagnosticSources
 https://github.com/jbogard/MongoDB.Driver.Core.Extensions.OpenTelemetry
+
+to start/stop Zipkin using Docker directly:
+docker run -d -p 9411:9411 openzipkin/zipkin
+docker stop 8500909940fc
+
+to start/stop Zipkin using docker-compose:
+docker-compose -f zipkin.yml up
+docker-compose -f zipkin.yml down -v
+
+to start/stop mongo using docker-compose:
+docker-compose -f mongo.yml up
+docker-compose -f mongo.yml down -v
