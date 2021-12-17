@@ -21,8 +21,10 @@ namespace DistributedTracing.Shipping.Endpoint
 
         public async Task Handle(ShipOrder message, IMessageHandlerContext context)
         {
-            var httpClient = this.httpClientFactory();
+            var httpClient = httpClientFactory();
             await httpClient.PostAsJsonAsync("/api/ship/ship", new Ship { OrderId = message.OrderId });
+            
+            await context.Publish(new OrderShipped {OrderId = message.OrderId});
         }
     }
 }

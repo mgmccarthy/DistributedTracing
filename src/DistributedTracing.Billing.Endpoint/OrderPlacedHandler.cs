@@ -14,7 +14,6 @@ namespace DistributedTracing.Billing.Endpoint
         public OrderPlacedHandler(OrderContext dbContext)
         {
             this.dbContext = dbContext;
-            //DbInitializer.Initialize(this.dbContext);
         }
 
         public async Task Handle(OrderPlaced message, IMessageHandlerContext context)

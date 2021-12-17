@@ -38,6 +38,7 @@ namespace DistributedTracing.Shipping.Endpoint
             {
                 Log.Info("Sending ShipOrder from ShippingSaga");
                 await context.SendLocal(new ShipOrder {OrderId = Data.OrderId});
+                MarkAsComplete();
             }
         }
 
