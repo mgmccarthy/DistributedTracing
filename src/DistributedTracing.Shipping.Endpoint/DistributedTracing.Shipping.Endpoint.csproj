@@ -20,6 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\DistributedTracing.Contracts\DistributedTracing.Contracts.csproj" />
 	  <ProjectReference Include="..\DistributedTracing.Messages\DistributedTracing.Messages.csproj" />
 	</ItemGroup>
 

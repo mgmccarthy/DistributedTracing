@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using DistributedTracing.Entities;
+using DistributedTracing.Entities.Mongo;
 using DistributedTracing.Messages;
 using MongoDB.Driver;
 using NServiceBus;

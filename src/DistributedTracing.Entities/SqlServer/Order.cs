@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace DistributedTracing.Shipping.Endpoint
+namespace DistributedTracing.Entities.SqlServer
 {
-    public class Ship
+    public class Order
     {
         public Guid OrderId { get; set; }
     }

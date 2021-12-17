@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using DistributedTracing.Entities.SqlServer;
 using DistributedTracing.Messages;
 using NServiceBus;
 using NServiceBus.Logging;

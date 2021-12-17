@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DistributedTracing.Entities.SqlServer;
+using Microsoft.EntityFrameworkCore;
 
 namespace DistributedTracing.Billing.Endpoint
 {

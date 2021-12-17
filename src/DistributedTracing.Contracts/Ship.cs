@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DistributedTracing.FedEx.API.Contracts
+namespace DistributedTracing.Contracts
 {
     public class Ship
     {

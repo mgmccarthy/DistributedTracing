@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DistributedTracing.Entities\DistributedTracing.Entities.csproj" />
     <ProjectReference Include="..\DistributedTracing.Messages\DistributedTracing.Messages.csproj" />
   </ItemGroup>
 

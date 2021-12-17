@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using DistributedTracing.FedEx.API.Contracts;
+﻿using DistributedTracing.Contracts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace DistributedTracing.FedEx.API.Controllers
