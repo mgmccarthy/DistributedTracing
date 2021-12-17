@@ -1,5 +1,7 @@
 Find out how to get names for sql server and mongo otel instead of their IP addresses in zipkin
 
+Get EF initialization correct
+
 Add EntityFrameworkCore open tel lib
 https://github.com/open-telemetry/opentelemetry-dotnet-contrib/tree/main/src/OpenTelemetry.Contrib.Instrumentation.EntityFrameworkCore
 

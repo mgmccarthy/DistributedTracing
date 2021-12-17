@@ -29,7 +29,19 @@ namespace DistributedTracing.Billing.Endpoint
             };
             ActivitySource.AddActivityListener(listener);
 
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            InitializeSqlServer(host);
+
+            host.Run();
+        }
+
+        private static void InitializeSqlServer(IHost host)
+        {
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            var context = services.GetRequiredService<OrderContext>();
+            DbInitializer.Initialize(context);
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -62,7 +74,6 @@ namespace DistributedTracing.Billing.Endpoint
                     services.AddOpenTelemetryTracing(builder => builder
                         .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(EndpointName))
                         .AddNServiceBusInstrumentation()
-                        //.AddHttpClientInstrumentation()
                         .AddSqlClientInstrumentation(opt => opt.SetDbStatementForText = true)
                         .AddZipkinExporter(o =>
                         {
@@ -76,14 +87,6 @@ namespace DistributedTracing.Billing.Endpoint
                     );
 
                     services.AddDbContext<OrderContext>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=DistributedTracing;Trusted_Connection=True;MultipleActiveResultSets=true"));
-
-                    //var context = services.GetRequiredService<OrderContext>();
-                    //DbInitializer.Initialize(context);
-
-                    //services.AddScoped<Func<HttpClient>>(s => () => new HttpClient
-                    //{
-                    //    BaseAddress = new Uri("https://localhost:5001")
-                    //});
                 });
     }
 }
