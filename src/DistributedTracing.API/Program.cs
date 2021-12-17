@@ -27,7 +27,6 @@ namespace DistributedTracing.API
             };
             ActivitySource.AddActivityListener(listener);
             var host = CreateHostBuilder(args).Build();
-            //SeedDb(host);
             host.Run();
         }
 
@@ -42,10 +41,7 @@ namespace DistributedTracing.API
                     transport.UseConventionalRoutingTopology();
 
                     var routing = transport.Routing();
-                    //routing.RouteToEndpoint(typeof(SaySomething).Assembly, "NsbActivities.WorkerService");
                     routing.RouteToEndpoint(typeof(PlaceOrder), "DistributedTracing.Ordering.Endpoint");
-
-                    //endpointConfiguration.UsePersistence<LearningPersistence>();
 
                     endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
 

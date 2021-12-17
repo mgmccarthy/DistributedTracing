@@ -15,6 +15,7 @@ namespace DistributedTracing.FedEx.API.Controllers
             this.logger = logger;
         }
 
+        [Route("ship")]
         [HttpPost]
         public IActionResult Ship(Ship model)
         {

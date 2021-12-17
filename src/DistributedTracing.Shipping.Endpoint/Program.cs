@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NServiceBus;
@@ -63,7 +64,7 @@ namespace DistributedTracing.Shipping.Endpoint
                     services.AddOpenTelemetryTracing(builder => builder
                         .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(EndpointName))
                         .AddNServiceBusInstrumentation()
-                        //.AddHttpClientInstrumentation()
+                        .AddHttpClientInstrumentation()
                         .AddZipkinExporter(o =>
                         {
                             o.Endpoint = new Uri("http://localhost:9411/api/v2/spans");
@@ -75,10 +76,10 @@ namespace DistributedTracing.Shipping.Endpoint
                         })
                     );
 
-                    //services.AddScoped<Func<HttpClient>>(s => () => new HttpClient
-                    //{
-                    //    BaseAddress = new Uri("https://localhost:5001")
-                    //});
+                    services.AddScoped<Func<HttpClient>>(s => () => new HttpClient
+                    {
+                        BaseAddress = new Uri("https://localhost:5003")
+                    });
                 });
     }
 }
