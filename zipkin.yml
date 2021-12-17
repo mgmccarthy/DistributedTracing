@@ -1,13 +1,6 @@
-version: "3"
-services:
-  
-  mongodb_container:
-    image: mongo:latest
-    ports:
-      - 27017:27017
-    volumes:
-      - mongodb_data_container:/data/db
+version: '2.4'
 
+services:
   # The zipkin process services the UI, and also exposes a POST endpoint that
   # instrumentation can send trace data to.
   zipkin:
@@ -27,6 +20,3 @@ services:
       - 9411:9411
     # Uncomment to enable debug logging
     command: --logging.level.zipkin2=DEBUG
-
-volumes:
-  mongodb_data_container:

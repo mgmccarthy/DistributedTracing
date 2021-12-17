@@ -30,9 +30,7 @@ namespace DistributedTracing.Billing.Endpoint
             ActivitySource.AddActivityListener(listener);
 
             var host = CreateHostBuilder(args).Build();
-
             InitializeSqlServer(host);
-
             host.Run();
         }
 
