@@ -1,10 +1,9 @@
 Find out how to get names for sql server and mongo otel instead of their IP addresses in zipkin
 
-Add a docker-compose-rabbit file
+Add EntityFrameworkCore open tel lib
+https://github.com/open-telemetry/opentelemetry-dotnet-contrib/tree/main/src/OpenTelemetry.Contrib.Instrumentation.EntityFrameworkCore
 
-mongo packages
-https://github.com/jbogard/MongoDB.Driver.Core.Extensions.DiagnosticSources
-https://github.com/jbogard/MongoDB.Driver.Core.Extensions.OpenTelemetry
+Add a docker-compose-rabbit file
 
 to start/stop Zipkin using Docker directly:
 docker run -d -p 9411:9411 openzipkin/zipkin
@@ -17,3 +16,32 @@ docker-compose -f zipkin.yml down -v
 to start/stop mongo using docker-compose:
 docker-compose -f mongo.yml up
 docker-compose -f mongo.yml down -v
+
+References:
+
+Distributed Tracing Made Easy with .NET 5, with Jimmy Bogard
+https://youtu.be/N0r5NSY3ZIQ
+
+Building End-to-End Diagnostics and Tracing Blog Series
+https://jimmybogard.com/building-end-to-end-diagnostics-and-tracing-a-primer/
+
+Increasing Trace Cardinality with Activity Tags and Baggage
+https://jimmybogard.com/increasing-trace-cardinality-with-tags-and-baggage/
+
+Diagnostics and Instrumentation Packages for MongoDB and NServiceBus Published
+https://jimmybogard.com/diagnostics-and-instrumentation-for-mongodb-and-nservicebus/
+
+OpenTelemetry 1.0 Extensions Released
+https://jimmybogard.com/opentelemetry-1-0-extensions-released/
+
+OpenTelemetry
+https://opentelemetry.io/
+https://github.com/open-telemetry
+
+mongo packages
+https://github.com/jbogard/MongoDB.Driver.Core.Extensions.DiagnosticSources
+https://github.com/jbogard/MongoDB.Driver.Core.Extensions.OpenTelemetry
+
+nservicebus packages
+https://github.com/jbogard/NServiceBus.Extensions.Diagnostics
+https://github.com/jbogard/NServiceBus.Extensions.Diagnostics.OpenTelemetry

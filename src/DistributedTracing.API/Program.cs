@@ -13,12 +13,12 @@ namespace DistributedTracing.API
 
         public static void Main(string[] args)
         {
-            //CreateHostBuilder(args).Build().Run();
             var listener = new ActivityListener
             {
                 ShouldListenTo = _ => true,
                 ActivityStopped = activity =>
                 {
+                    //when the activity stops, take each key/value pair in baggage and assign it to the activity's tag colleciton, so the reporting tool that surface it
                     foreach (var (key, value) in activity.Baggage)
                     {
                         activity.AddTag(key, value);
@@ -26,6 +26,7 @@ namespace DistributedTracing.API
                 }
             };
             ActivitySource.AddActivityListener(listener);
+
             var host = CreateHostBuilder(args).Build();
             host.Run();
         }
