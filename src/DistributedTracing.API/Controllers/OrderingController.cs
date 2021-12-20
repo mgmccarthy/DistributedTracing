@@ -26,7 +26,7 @@ namespace DistributedTracing.API.Controllers
             //this is "local" to the Activity
             Activity.Current?.AddTag("DistributedTracing.API_TagKey", "DistributedTracing.API_TagValue");
 
-            //this propogates through the rest of the call chain
+            //this propogates through the rest of the call chain, BUT, not for free!
             Activity.Current?.AddBaggage("order.id", command.OrderId.ToString());
             
             await messageSession.Send(command);

@@ -23,6 +23,7 @@ namespace DistributedTracing.Ordering.Endpoint
                 ShouldListenTo = _ => true,
                 ActivityStopped = activity =>
                 {
+                    //when the activity stops, take each key/value pair in baggage and assign it to the activity's tag colleciton, so the reporting tool can display those values
                     foreach (var (key, value) in activity.Baggage)
                     {
                         activity.AddTag(key, value);

@@ -1,12 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DistributedTracing.FedEx.API
 {
@@ -16,7 +10,6 @@ namespace DistributedTracing.FedEx.API
 
         public static void Main(string[] args)
         {
-            //CreateHostBuilder(args).Build().Run();
             var listener = new ActivityListener
             {
                 ShouldListenTo = _ => true,
